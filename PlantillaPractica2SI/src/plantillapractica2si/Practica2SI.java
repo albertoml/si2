@@ -12,7 +12,7 @@ import java.util.Random;
  *
  * @author dviejo
  */
-public class PlantillaPractica2SI {
+public class Practica2SI {
 
     private String rutaDir;
     private File []files;
@@ -25,7 +25,7 @@ public class PlantillaPractica2SI {
     private ArrayList<Cara> listaAprendizaje;
     private ArrayList<Cara> listaTest;
 
-    public PlantillaPractica2SI()
+    public Practica2SI()
     {
         rutaDir = "";
         testRate = 0.5;
@@ -158,12 +158,12 @@ public class PlantillaPractica2SI {
      */
     public static void main(String[] args) {
 		int cont;
-		PlantillaPractica2SI programa;
+		Practica2SI programa;
 		String option;
 		boolean maluso = true;
 		int paso = 2;
 		
-		programa = new PlantillaPractica2SI();
+		programa = new Practica2SI();
 
 		for(cont = 0; cont < args.length; cont+=paso)
 		{
