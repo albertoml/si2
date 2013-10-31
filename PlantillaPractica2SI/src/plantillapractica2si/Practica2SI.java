@@ -28,7 +28,7 @@ public class Practica2SI {
     public Practica2SI()
     {
         rutaDir = "";
-        testRate = 0.5;
+        testRate = 0.9;
 	NUM_ITERACIONES = 1;
 	NUM_CLASIFICADORES = 1;
         VERBOSE = false;
@@ -83,8 +83,9 @@ public class Practica2SI {
             {
                 clase = -1;  //TODO Cambiar -1 por la llamada a clasificar utilizando el clasificador fuerte
                         //de Adaboost para el ejemplo c
-                if(clase == c.getTipo())
+                if(clase == c.getTipo()){
                     aciertos++;
+                }
             }
             System.out.println("APRENDIZAJE. Tasa de aciertos: "+((float)aciertos/(float)(listaAprendizaje.size())*100.0f)+"%");
         }
@@ -95,11 +96,11 @@ public class Practica2SI {
 	{
 		clase = -1;  //TODO Cambiar -1 por la llamada a clasificar utilizando el clasificador fuerte
                             //de Adaboost para el ejemplo c
-		if(clase == c.getTipo())
+		if(clase == c.getTipo()){
 			aciertos++;
+                }
 	}
-	System.out.println("TEST. Tasa de aciertos: "+((float)aciertos/(float)(listaAprendizaje.size())*100.0f)+"%");
-
+	System.out.println("TEST. Tasa de aciertos: "+((float)aciertos/(float)(listaTest.size())*100.0f)+"%");
     }
     
     /**
