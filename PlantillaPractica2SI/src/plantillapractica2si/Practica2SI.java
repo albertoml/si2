@@ -1,4 +1,34 @@
 /*
+ * GENERAR PLANO PUNTO Y VECTOR
+ * generar PUNTO 576 dim mirar min y max del conjunto de aprendizaje
+ * para definir el val aleatorio
+ * generar VECTOR  obtener direccion
+ * definir un vector de 576 elem definido entre -1 y 1 aleatorio para especificar direccion
+ * evitar problemas normalizar el vector sumar sus componentes y dividir entre la suma
+ * para k la suma valga 1
+ * 
+ * CLASIFICAR
+ * necesitamos un valor generar HIPERPLANO sumatorio (p(i)*v(i)) - C cierto valor
+ * C= sum(p(i)*v(i))
+ * 
+ * CLASIFICACION
+ * Cojer como punto cada vector de la imagen con nuestro vector direccion y nuestra C
+ * Para clasificar sum(v(i)*pimg(i))-C si el res>0 una parte del plano
+ *                                     si el res<0 otra parte del plano
+ * 
+ * comprobar si acierta o no y ver la tasa de aciertos
+ * repetir el proceso las veces que indique el parametro del programa
+ * y quedarnos con el mejor hiperplano, el que mas tasa de aciertos de.
+ * 
+ * 2 SEMANAS
+ * 
+ */
+
+
+
+
+
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
