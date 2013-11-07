@@ -24,10 +24,6 @@
  * 
  */
 
-
-
-
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -104,8 +100,9 @@ public class Practica2SI {
         
 	time = t2 - t1;
 	System.out.println("Tiempo empleado en el aprendizaje: "+((float)time/1000f)+" segundos");
-	System.out.println("Número de clasificadores encontrados: "); //TODO añadir el valor
-	//Test final
+	System.out.println("Número de clasificadores encontrados: " + NUM_CLASIFICADORES);
+        //TODO añadir el valor puesto arriba
+	/*//Test final
         if(VERBOSE)
         {
             aciertos = 0;
@@ -130,7 +127,62 @@ public class Practica2SI {
 			aciertos++;
                 }
 	}
-	System.out.println("TEST. Tasa de aciertos: "+((float)aciertos/(float)(listaTest.size())*100.0f)+"%");
+	System.out.println("TEST. Tasa de aciertos: "+((float)aciertos/(float)(listaTest.size())*100.0f)+"%");*/
+        
+        //LLAMAR A MI CLASIFICADOR DEBIL
+        int max[], min[];
+        max=BuscarMax(listaAprendizaje);
+        min=BuscarMin(listaAprendizaje);
+        
+        for(int i=0;i<max.length;i++){
+         
+            System.out.print(max[i]);
+        }
+        
+        System.out.println();
+        System.out.println(max.length);
+    }
+    
+    public int []BuscarMax(ArrayList<Cara> a){
+        
+        int sol[]=a.get(0).getData();
+        
+        for(int i=1; i<a.size(); i++){
+            
+            int aux[]=a.get(i).getData();
+            
+            for(int j=0; j<aux.length ; j++){
+                
+                if(aux[j]>sol[j]){
+                    
+                    sol[j]=aux[j];
+                } 
+            }       
+        }
+        
+        for(int j=0; j<sol.length; j++){
+            System.out.print(sol[j] + " ");
+        }
+        System.out.println();
+        return sol;
+    }
+    public int[] BuscarMin(ArrayList<Cara> a){
+       
+        int sol[]=a.get(0).getData();
+        
+        for(int i=1; i<a.size(); i++){
+            
+            int aux[]=a.get(i).getData();
+            
+            for(int j=0; j<aux.length ; j++){
+               
+                if(aux[j]<sol[j]){
+                    
+                    sol[j]=aux[j];
+                }      
+            }       
+        }
+        return sol;
     }
     
     /**

@@ -30,8 +30,10 @@ public class Cara {
 			data = bimage.getRGB(0, 0, bimage.getWidth(), bimage.getHeight(), null, 0, bimage.getWidth());
 			//Asumiendo que la imagen ya está en escala de grises pero en formato color, 
 			//convertimos ARGB en un único valor
-			for(cont=0;cont<data.length;cont++)
-				data[cont] = data[cont] & mask; 
+			for(cont=0;cont<data.length;cont++){
+                            
+                            data[cont] = data[cont] & mask;
+                        }
 			this.tipo = tipo;
 		} catch (IOException e)
 		{
