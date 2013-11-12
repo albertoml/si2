@@ -10,19 +10,73 @@ package plantillapractica2si;
  */
 public class Hiperplano {
     
-    public float []Punto;
+    public int []Punto;
     public float []Vector;
+    public float C;
     private static int Dimension=576;
     private static float MaxVector=1;
     private static float MinVector=-1;
     
-    public Hiperplano(int MaxPunto, int MinPunto){
+    public Hiperplano(){
+    }
+    
+    public Hiperplano(int MaxPunto[], int MinPunto[]){
         
         int i;
         for (i=0;i<Dimension;i++){
             
-            Punto[i]=(int)(Math.random()*(MaxPunto-MinPunto))+MinPunto;
+            Punto[i]=(int)(Math.random()*(MaxPunto[i]-MinPunto[i]))+MinPunto[i];
             Vector[i]=(float)(Math.random()*(MaxVector-MinVector))+MinVector;    
         }
+        NormalizarVector();
+        CalcularC();
+    }
+    
+    public void CalcularC(){
+        
+        float sum=0;
+        for(int i=0; i<Dimension; i++){
+            
+            sum+= Punto[i]*Vector[i];
+        }
+        C= sum;
+    }
+    
+    public void NormalizarVector(){
+        
+        float sum=0;
+        for(int i=0; i<Dimension; i++){
+            
+            sum+=Vector[i];
+        }
+        for(int i=0; i<Dimension; i++){
+            
+            Vector[i]= Vector[i]/sum;
+        }
+    }
+    
+    public float getC(){
+        
+        return C;
+    }
+    public int[] getPunto(){
+        
+        return Punto;
+    }
+    public float[] getVector(){
+        
+        return Vector;
+    }
+    public void setC(float c){
+        
+        C=c;
+    }
+    public void setPunto(int[] p){
+        
+        Punto=p;
+    }
+    public void setVector(float[] v){
+        
+        Vector=v;
     }
 }

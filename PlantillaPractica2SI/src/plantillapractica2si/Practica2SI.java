@@ -130,20 +130,34 @@ public class Practica2SI {
 	System.out.println("TEST. Tasa de aciertos: "+((float)aciertos/(float)(listaTest.size())*100.0f)+"%");*/
         
         //LLAMAR A MI CLASIFICADOR DEBIL
-        int max[], min[];
+        int max[];
         max=BuscarMax(listaAprendizaje);
+        
+        for(int i=0;i<max.length;i++){
+         
+            System.out.print(max[i] + " ");
+        }
+        System.out.println();
+        int min[];
         min=BuscarMin(listaAprendizaje);
         
         for(int i=0;i<max.length;i++){
          
-            System.out.print(max[i]);
+            System.out.print(max[i] + " ");
         }
-        
         System.out.println();
-        System.out.println(max.length);
+        for(int i=0;i<min.length;i++){
+         
+            System.out.print(min[i] + " ");
+        }
+        System.out.println();
+        
+        //Crear hiperplanos 
+        ClasDebil miclasi = new ClasDebil(NUM_CLASIFICADORES, max, min);
+        miclasi.Testear(listaTest);
     }
     
-    public int []BuscarMax(ArrayList<Cara> a){
+    public int[] BuscarMax(ArrayList<Cara> a){
         
         int sol[]=a.get(0).getData();
         
@@ -159,11 +173,6 @@ public class Practica2SI {
                 } 
             }       
         }
-        
-        for(int j=0; j<sol.length; j++){
-            System.out.print(sol[j] + " ");
-        }
-        System.out.println();
         return sol;
     }
     public int[] BuscarMin(ArrayList<Cara> a){
