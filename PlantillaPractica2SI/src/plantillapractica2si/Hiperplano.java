@@ -18,11 +18,24 @@ public class Hiperplano {
     private static float MinVector=-1;
     
     public Hiperplano(){
+        
+        int i;
+        Punto= new int[Dimension];
+        Vector= new float[Dimension];
+        for (i=0;i<Dimension;i++){
+            
+            Punto[i]=(int)(Math.random()*255);
+            Vector[i]=(float)(Math.random()*(MaxVector-MinVector))+MinVector;    
+        }
+        NormalizarVector();
+        CalcularC();
     }
     
     public Hiperplano(int MaxPunto[], int MinPunto[]){
         
         int i;
+        Punto= new int[Dimension];
+        Vector= new float[Dimension];
         for (i=0;i<Dimension;i++){
             
             Punto[i]=(int)(Math.random()*(MaxPunto[i]-MinPunto[i]))+MinPunto[i];

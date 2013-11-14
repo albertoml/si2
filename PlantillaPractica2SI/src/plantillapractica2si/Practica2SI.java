@@ -54,7 +54,7 @@ public class Practica2SI {
     public Practica2SI()
     {
         rutaDir = "";
-        testRate = 0.9;
+        testRate = 0.8;
 	NUM_ITERACIONES = 1;
 	NUM_CLASIFICADORES = 1;
         VERBOSE = false;
@@ -132,36 +132,20 @@ public class Practica2SI {
         //LLAMAR A MI CLASIFICADOR DEBIL
         int max[];
         max=BuscarMax(listaAprendizaje);
-        
-        for(int i=0;i<max.length;i++){
-         
-            System.out.print(max[i] + " ");
-        }
-        System.out.println();
         int min[];
         min=BuscarMin(listaAprendizaje);
         
-        for(int i=0;i<max.length;i++){
-         
-            System.out.print(max[i] + " ");
-        }
-        System.out.println();
-        for(int i=0;i<min.length;i++){
-         
-            System.out.print(min[i] + " ");
-        }
-        System.out.println();
-        
         //Crear hiperplanos 
         ClasDebil miclasi = new ClasDebil(NUM_CLASIFICADORES, max, min);
+        miclasi.Aprender(listaAprendizaje);
         miclasi.Testear(listaTest);
     }
     
     public int[] BuscarMax(ArrayList<Cara> a){
         
-        int sol[]=a.get(0).getData();
+        int sol[]=new int [a.get(0).getData().length];
         
-        for(int i=1; i<a.size(); i++){
+        for(int i=0; i<a.size(); i++){
             
             int aux[]=a.get(i).getData();
             
@@ -177,9 +161,9 @@ public class Practica2SI {
     }
     public int[] BuscarMin(ArrayList<Cara> a){
        
-        int sol[]=a.get(0).getData();
+        int sol[]=new int[a.get(0).getData().length];
         
-        for(int i=1; i<a.size(); i++){
+        for(int i=0; i<a.size(); i++){
             
             int aux[]=a.get(i).getData();
             
