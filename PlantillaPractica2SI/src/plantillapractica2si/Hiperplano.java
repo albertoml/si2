@@ -12,6 +12,7 @@ public class Hiperplano {
     
     public int []Punto;
     public float []Vector;
+    public float TasaError;
     public float C;
     private static int Dimension=576;
     private static float MaxVector=1;
@@ -22,6 +23,7 @@ public class Hiperplano {
         int i;
         Punto= new int[Dimension];
         Vector= new float[Dimension];
+        TasaError=0;
         for (i=0;i<Dimension;i++){
             
             Punto[i]=(int)(Math.random()*255);
@@ -80,6 +82,10 @@ public class Hiperplano {
         
         return Vector;
     }
+    public float getTasaError(){
+        
+        return TasaError;
+    }
     public void setC(float c){
         
         C=c;
@@ -91,5 +97,9 @@ public class Hiperplano {
     public void setVector(float[] v){
         
         Vector=v;
+    }
+    public void setTasaError(float t){
+        
+        TasaError= t;
     }
 }

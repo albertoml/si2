@@ -60,6 +60,10 @@ public class ClasDebil {
                 varC=ObtenerC(Hiperplanos.get(i), aprender.get(j));
                 //lo comparamos con la c del hiperplano
                 resta=varC - Hiperplanos.get(i).getC();
+                //si es mayor que 0 y es cara acierto
+                //si es menor que 0 y es no cara acierto
+                //si es mayor que 0 y no cara fallo
+                //si es menor que 0 y cara fallo
                 if(resta>0){
                     if(aprender.get(j).getTipo()==1){
                     
@@ -96,6 +100,7 @@ public class ClasDebil {
                 mejor=i;
             }
             division=(float) sol[i]/aprender.size();
+            Hiperplanos.get(i).setTasaError(division);
             System.out.println(i + "              " + sol[i] + "         " 
                     + fail[i] + "        " + division + "%");
         }
