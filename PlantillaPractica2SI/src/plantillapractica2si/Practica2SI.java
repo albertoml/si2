@@ -1,4 +1,5 @@
 /*
+ * CLASIFICADOR DEBIL
  * GENERAR PLANO PUNTO Y VECTOR
  * generar PUNTO 576 dim mirar min y max del conjunto de aprendizaje
  * para definir el val aleatorio
@@ -20,7 +21,12 @@
  * repetir el proceso las veces que indique el parametro del programa
  * y quedarnos con el mejor hiperplano, el que mas tasa de aciertos de.
  * 
- * 2 SEMANAS
+ * 2 SEMANAS (HECHO A FALTA DE LEER EL GUION DE LA PRACTICA A VER SI PIDEN ESO
+ *              PERO FUNCIONAR FUNCIONA)
+ * 
+ * CLASIFICADOR FUERTE
+ * DESCRIPCION EN EL GUION DE LA PRACTICA 
+ * 3 SEMANAS
  * 
  */
 
@@ -54,7 +60,7 @@ public class Practica2SI {
     public Practica2SI()
     {
         rutaDir = "";
-        testRate = 0.8;
+        testRate = 0.5;
 	NUM_ITERACIONES = 1;
 	NUM_CLASIFICADORES = 1;
         VERBOSE = false;
