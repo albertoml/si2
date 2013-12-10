@@ -19,6 +19,20 @@ public class ClasFuerte {
         iteraciones= i;
     }
     
+    public float ObtenerC(Hiperplano h, Cara c){
+        
+        float sol=0;
+        int [] auxPunto= c.getData();
+        float [] auxVector= h.getVector();
+        
+        for(int i=0; i<auxPunto.length; i++){
+            
+            sol+= auxPunto[i]*auxVector[i];
+        }
+        
+        return sol;
+    }
+    
     public boolean Test (float v, Cara c){
         
         boolean sol=false;
@@ -43,12 +57,50 @@ public class ClasFuerte {
         return sol;
     }
     
+    public Hiperplano Entrenar(int clasificadores, ArrayList<Cara> aprender, int max[], 
+            int min[], double peso[]){
+        
+        float varC, resta;
+        double tasaError, tasaMenor=1;
+        
+        Hiperplano solucion = new Hiperplano();
+        ArrayList<Hiperplano> Hiperplanos = new ArrayList();
+        for(int i=0; i<clasificadores; i++){
+            
+            Hiperplanos.add(new Hiperplano(max, min));
+        }
+        
+        for (int i=0; i<Hiperplanos.size(); i++){
+            
+            //probar hiperplano uno a uno
+            tasaError=0;
+            for(int j=0; j<aprender.size(); j++){
+                
+                varC=ObtenerC(Hiperplanos.get(i), aprender.get(j));
+                resta=varC - Hiperplanos.get(i).getC();
+                
+                if(!Test(resta, aprender.get(j))){
+                    
+                    tasaError+= peso[j];
+                }
+            }
+            Hiperplanos.get(i).setTasaError(tasaError);
+            if(tasaError<tasaMenor){
+                
+                tasaMenor=tasaError;
+                solucion=Hiperplanos.get(i);
+            }
+        }
+        
+        return solucion;
+    }
+    
     public Hiperplano Adaboost(ArrayList<Cara> listaAprendizaje, int clasificadores, int[] max, int[] min){
         
         Hiperplano solucion= new Hiperplano();
         boolean encontrado=false;
         //vector de pesos
-        float [] Peso = new float[listaAprendizaje.size()];
+        double [] Peso = new double[listaAprendizaje.size()];
         int tamaño= listaAprendizaje.size();
         //inicializo el vector para normalizarlo entre su tamaño
         for(int i=0; i<tamaño; i++){
@@ -58,29 +110,39 @@ public class ClasFuerte {
         
         for(int i=0; i<iteraciones && encontrado==false; i++){
             
-            ClasDebil aux= new ClasDebil(clasificadores, max, min);
-            solucion=aux.Aprender(listaAprendizaje);
-            
-            for(int j=0; j<Peso.length; j++){
+            //entrenamos el clasificador debil con la tasa de error
+            solucion=Entrenar(clasificadores, listaAprendizaje, max, min, Peso);
+            //con la tasa de error calculamos alfa
+            double alfa= 1/2 * (Math.log((1-solucion.getTasaError())/solucion.getTasaError()));
+            //acualizamos el vector de pesos
+            float varC, resta;
+            double suma=0;
+            int j;
+            for(j=0; i<tamaño-1; j++){
                 
-                float varC=aux.ObtenerC(solucion, listaAprendizaje.get(j));
-                //lo comparamos con la c del hiperplano
-                float resta;
+                varC=ObtenerC(solucion, listaAprendizaje.get(j));
                 resta=varC - solucion.getC();
-                //Nos dira si acierta o no
-                if(!Test(resta, listaAprendizaje.get(j))){
-                    
-                    //sumamos la tasa de error
-                    //DUDA EXISTENCIA
-                    //LA TASA DE ERROR ES DE UN HIPERPLANO COMPLETO
-                    //NO DE UN PUNTO ENTONCS QUE SUMAMOS EN CADA ITERACION
-                    //QUE FALLE
+                if(Test(resta, listaAprendizaje.get(j))){
+                    //clasifica bien
+                    Peso[j+1]= Peso[j] * Math.pow(Math.E, (alfa));
                 }
+                else{
+                    //clasifica mal
+                    Peso[j+1]= Peso[j] * Math.pow(Math.E, (-alfa));
+                }
+                suma+=Peso[j];
             }
+            suma+=Peso[j+1];
+            //normalizamos el vector de pesos
+            for(int k=0;k<tamaño; k++){
+                
+                Peso[k]= (Peso[k]/suma);
+            }
+            //actualizamos el clasificador fuerte
             
-            
-            
+            //calcular condicion y devolver
         }
+        
         
         return solucion;
     }

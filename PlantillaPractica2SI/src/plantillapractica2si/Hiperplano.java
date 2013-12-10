@@ -12,7 +12,7 @@ public class Hiperplano {
     
     public int []Punto;
     public float []Vector;
-    public float TasaError;
+    public double TasaError;
     public float C;
     private static int Dimension=576;
     private static float MaxVector=1;
@@ -82,7 +82,7 @@ public class Hiperplano {
         
         return Vector;
     }
-    public float getTasaError(){
+    public double getTasaError(){
         
         return TasaError;
     }
@@ -98,7 +98,7 @@ public class Hiperplano {
         
         Vector=v;
     }
-    public void setTasaError(float t){
+    public void setTasaError(double t){
         
         TasaError= t;
     }

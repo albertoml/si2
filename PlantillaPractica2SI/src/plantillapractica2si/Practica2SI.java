@@ -135,16 +135,21 @@ public class Practica2SI {
 	}
 	System.out.println("TEST. Tasa de aciertos: "+((float)aciertos/(float)(listaTest.size())*100.0f)+"%");*/
         
-        //LLAMAR A MI CLASIFICADOR DEBIL
         int max[];
         max=BuscarMax(listaAprendizaje);
         int min[];
         min=BuscarMin(listaAprendizaje);
         
         //Crear hiperplanos 
-        ClasDebil miclasi = new ClasDebil(NUM_CLASIFICADORES, max, min);
-        miclasi.Aprender(listaAprendizaje);
-        miclasi.Testear(listaTest);
+        //LLAMAR A MI CLASIFICADOR DEBIL
+        //ClasDebil miclasi = new ClasDebil(NUM_CLASIFICADORES, max, min);
+        //miclasi.Aprender(listaAprendizaje);
+        //miclasi.Testear(listaTest);
+        
+        //LLAMAR A MI CLASIFICADOR FUERTE
+        ClasFuerte miclasi = new ClasFuerte(NUM_ITERACIONES);
+        miclasi.Adaboost(listaAprendizaje, NUM_CLASIFICADORES, max, min);
+        
     }
     
     public int[] BuscarMax(ArrayList<Cara> a){
