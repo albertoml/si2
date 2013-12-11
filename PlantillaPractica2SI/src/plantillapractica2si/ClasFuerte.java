@@ -95,7 +95,8 @@ public class ClasFuerte {
         return solucion;
     }
     
-    public Hiperplano Adaboost(ArrayList<Cara> listaAprendizaje, int clasificadores, int[] max, int[] min){
+    public Hiperplano Adaboost(ArrayList<Cara> listaAprendizaje, int clasificadores, 
+            int[] max, int[] min){
         
         Hiperplano solucion= new Hiperplano();
         boolean encontrado=false;
@@ -140,11 +141,18 @@ public class ClasFuerte {
             }
             //actualizamos el clasificador fuerte
             
+                //NO ENTIENDO FORMULA PREGUNTAR
+                //DUDA COMO CREAR LOS HIPERPLANOS A PARTIR DE ESTE PARA
+                //MINIMIZAR LA TASA DE ERROR YA QUE ESTOS SE CREAN ALEATORIOS
+                //A PARTIR DE MAX Y MIN
+            
             //calcular condicion y devolver
+            if(solucion.getTasaError()==0){
+                
+                return solucion;
+            }
         }
         
-        
         return solucion;
-    }
-    
+    } 
 }
