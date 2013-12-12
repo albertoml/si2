@@ -13,6 +13,7 @@ public class Hiperplano {
     public int []Punto;
     public float []Vector;
     public double TasaError;
+    public double alfa;
     public float C;
     private static int Dimension=576;
     private static float MaxVector=1;
@@ -74,6 +75,10 @@ public class Hiperplano {
         
         return C;
     }
+    public double getAlfa(){
+        
+        return alfa;
+    }
     public int[] getPunto(){
         
         return Punto;
@@ -89,6 +94,10 @@ public class Hiperplano {
     public void setC(float c){
         
         C=c;
+    }
+    public void setAlfa(double a){
+        
+        alfa=a;
     }
     public void setPunto(int[] p){
         

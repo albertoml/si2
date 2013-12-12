@@ -60,7 +60,7 @@ public class Practica2SI {
     public Practica2SI()
     {
         rutaDir = "";
-        testRate = 0.5;
+        testRate = 0.8;
 	NUM_ITERACIONES = 1;
 	NUM_CLASIFICADORES = 1;
         VERBOSE = false;
@@ -149,6 +149,7 @@ public class Practica2SI {
         //LLAMAR A MI CLASIFICADOR FUERTE
         ClasFuerte miclasi = new ClasFuerte(NUM_ITERACIONES);
         miclasi.Adaboost(listaAprendizaje, NUM_CLASIFICADORES, max, min);
+        miclasi.Testear(listaTest);
         
     }
     

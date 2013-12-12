@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class ClasFuerte {
     
-    public Hiperplano Mejor;
+    public ArrayList<Hiperplano> Mejores;
     private int iteraciones;
     
     public ClasFuerte(int i){
@@ -95,11 +95,12 @@ public class ClasFuerte {
         return solucion;
     }
     
-    public Hiperplano Adaboost(ArrayList<Cara> listaAprendizaje, int clasificadores, 
+    public ArrayList<Hiperplano> Adaboost(ArrayList<Cara> listaAprendizaje, int clasificadores, 
             int[] max, int[] min){
         
-        Hiperplano solucion= new Hiperplano();
-        boolean encontrado=false;
+        Hiperplano ht= new Hiperplano();
+        ArrayList<Hiperplano> listaEntrenados = new ArrayList();
+        double clasificacion=0;
         //vector de pesos
         double [] Peso = new double[listaAprendizaje.size()];
         int tamaño= listaAprendizaje.size();
@@ -109,20 +110,22 @@ public class ClasFuerte {
             Peso[i]= (float) 1/tamaño;
         }
         
-        for(int i=0; i<iteraciones && encontrado==false; i++){
+        for(int i=0; i<iteraciones; i++){
             
             //entrenamos el clasificador debil con la tasa de error
-            solucion=Entrenar(clasificadores, listaAprendizaje, max, min, Peso);
+            ht=Entrenar(clasificadores, listaAprendizaje, max, min, Peso);
             //con la tasa de error calculamos alfa
-            double alfa= 1/2 * (Math.log((1-solucion.getTasaError())/solucion.getTasaError()));
+            double alfa= 1/2 * (Math.log((1-ht.getTasaError())/ht.getTasaError()));
+            ht.setAlfa(alfa);
+            listaEntrenados.add(ht);
             //acualizamos el vector de pesos
             float varC, resta;
             double suma=0;
             int j;
-            for(j=0; i<tamaño-1; j++){
+            for(j=0; j<tamaño-1; j++){
                 
-                varC=ObtenerC(solucion, listaAprendizaje.get(j));
-                resta=varC - solucion.getC();
+                varC=ObtenerC(ht, listaAprendizaje.get(j));
+                resta=varC - ht.getC();
                 if(Test(resta, listaAprendizaje.get(j))){
                     //clasifica bien
                     Peso[j+1]= Peso[j] * Math.pow(Math.E, (alfa));
@@ -133,7 +136,7 @@ public class ClasFuerte {
                 }
                 suma+=Peso[j];
             }
-            suma+=Peso[j+1];
+            suma+=Peso[j];
             //normalizamos el vector de pesos
             for(int k=0;k<tamaño; k++){
                 
@@ -141,18 +144,65 @@ public class ClasFuerte {
             }
             //actualizamos el clasificador fuerte
             
-                //NO ENTIENDO FORMULA PREGUNTAR
-                //DUDA COMO CREAR LOS HIPERPLANOS A PARTIR DE ESTE PARA
-                //MINIMIZAR LA TASA DE ERROR YA QUE ESTOS SE CREAN ALEATORIOS
-                //A PARTIR DE MAX Y MIN
+            clasificacion=Actualizar(listaEntrenados, listaAprendizaje);
+            
             
             //calcular condicion y devolver
-            if(solucion.getTasaError()==0){
+            if(ht.getTasaError()==0){
                 
-                return solucion;
+                Mejores= listaEntrenados;
+                return listaEntrenados;
             }
         }
+        Mejores= listaEntrenados;
+        return listaEntrenados;
+    }
+    
+    public void Actualizar(ArrayList<Hiperplano> listaEntrenados, ArrayList<Cara> listaAprendizaje){
         
-        return solucion;
-    } 
+        double suma=0;
+        
+        for(int i=0; i<listaEntrenados.size(); i++){
+            
+            
+        }
+    }
+    
+    public void Testear(ArrayList<Cara> test){
+        
+        int acierto=0, fallo=0;
+        float varC, resta;
+        for(int j=0; j<test.size(); j++){
+                
+            varC=ObtenerC(Mejor, test.get(j));
+            //lo comparamos con la c del hiperplano
+            resta=varC - Mejor.getC();
+            if(resta>0){
+                if(test.get(j).getTipo()==1){
+                    
+                    acierto++;
+                }
+                else{
+                    
+                    fallo++;
+                }
+            }
+            else{
+                if(test.get(j).getTipo()==-1){
+                    
+                    acierto++;
+                }
+                else{
+                    
+                    fallo++;
+                }
+            }
+        }
+        System.out.println("Testear el mejor Hiperplano");
+        System.out.println("aciertos     fallos    Tasa aciertos");
+        float division;
+            
+        division=(float) acierto/test.size();
+        System.out.println(acierto + "         " + fallo + "        " + division + "%");
+    }
 }
