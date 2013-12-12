@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package plantillapractica2si;
+import java.util.ArrayList;
 
 /**
  *
@@ -58,6 +59,20 @@ public class Hiperplano {
         C= sum;
     }
     
+    public float ObtenerC(Hiperplano h, Cara c){
+        
+        float sol=0;
+        int [] auxPunto= c.getData();
+        float [] auxVector= h.getVector();
+        
+        for(int i=0; i<auxPunto.length; i++){
+            
+            sol+= auxPunto[i]*auxVector[i];
+        }
+        
+        return sol;
+    }
+    
     public void NormalizarVector(){
         
         float sum=0;
@@ -69,6 +84,42 @@ public class Hiperplano {
             
             Vector[i]= Vector[i]/sum;
         }
+    }
+     public void Testear(ArrayList<Cara> test){
+        
+        int acierto=0, fallo=0;
+        float varC, resta;
+        for(int j=0; j<test.size(); j++){
+                
+            varC=ObtenerC(this, test.get(j));
+            //lo comparamos con la c del hiperplano
+            resta=varC - this.getC();
+            if(resta>0){
+                if(test.get(j).getTipo()==1){
+                    
+                    acierto++;
+                }
+                else{
+                    
+                    fallo++;
+                }
+            }
+            else{
+                if(test.get(j).getTipo()==-1){
+                    
+                    acierto++;
+                }
+                else{
+                    
+                    fallo++;
+                }
+            }
+        }
+        System.out.println("aciertos     fallos    Tasa aciertos");
+        float division;
+            
+        division=(float) acierto/test.size();
+        System.out.println(acierto + "         " + fallo + "        " + division + "%");
     }
     
     public float getC(){

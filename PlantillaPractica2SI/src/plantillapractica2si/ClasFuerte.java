@@ -144,7 +144,7 @@ public class ClasFuerte {
             }
             //actualizamos el clasificador fuerte
             
-            clasificacion=Actualizar(listaEntrenados, listaAprendizaje);
+            listaEntrenados.get(i).Testear(listaAprendizaje);
             
             
             //calcular condicion y devolver
@@ -156,53 +156,5 @@ public class ClasFuerte {
         }
         Mejores= listaEntrenados;
         return listaEntrenados;
-    }
-    
-    public void Actualizar(ArrayList<Hiperplano> listaEntrenados, ArrayList<Cara> listaAprendizaje){
-        
-        double suma=0;
-        
-        for(int i=0; i<listaEntrenados.size(); i++){
-            
-            
-        }
-    }
-    
-    public void Testear(ArrayList<Cara> test){
-        
-        int acierto=0, fallo=0;
-        float varC, resta;
-        for(int j=0; j<test.size(); j++){
-                
-            varC=ObtenerC(Mejor, test.get(j));
-            //lo comparamos con la c del hiperplano
-            resta=varC - Mejor.getC();
-            if(resta>0){
-                if(test.get(j).getTipo()==1){
-                    
-                    acierto++;
-                }
-                else{
-                    
-                    fallo++;
-                }
-            }
-            else{
-                if(test.get(j).getTipo()==-1){
-                    
-                    acierto++;
-                }
-                else{
-                    
-                    fallo++;
-                }
-            }
-        }
-        System.out.println("Testear el mejor Hiperplano");
-        System.out.println("aciertos     fallos    Tasa aciertos");
-        float division;
-            
-        division=(float) acierto/test.size();
-        System.out.println(acierto + "         " + fallo + "        " + division + "%");
     }
 }
