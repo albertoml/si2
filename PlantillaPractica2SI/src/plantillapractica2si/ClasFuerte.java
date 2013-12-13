@@ -143,10 +143,10 @@ public class ClasFuerte {
                 Peso[k]= (Peso[k]/suma);
             }
             //actualizamos el clasificador fuerte
-            
-            listaEntrenados.get(i).Testear(listaAprendizaje);
-            
-            
+            for(int k=0; k<listaEntrenados.size(); k++){
+                
+                listaEntrenados.get(k).SobreEntrenar(Peso, listaAprendizaje);
+            }     
             //calcular condicion y devolver
             if(ht.getTasaError()==0){
                 
@@ -155,6 +155,14 @@ public class ClasFuerte {
             }
         }
         Mejores= listaEntrenados;
+        
+        for(int i=0;i<Mejores.size();i++){
+            
+            Mejores.get(i).Testear(listaAprendizaje);
+        }
+        
         return listaEntrenados;
     }
+    
+    
 }

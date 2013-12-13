@@ -121,6 +121,47 @@ public class Hiperplano {
         division=(float) acierto/test.size();
         System.out.println(acierto + "         " + fallo + "        " + division + "%");
     }
+     
+     public boolean Test (float v, Cara c){
+        
+        boolean sol=false;
+        
+        //si es mayor que 0 y es cara acierto
+        //si es menor que 0 y es no cara acierto
+        //si es mayor que 0 y no cara fallo
+        //si es menor que 0 y cara fallo
+        if(v > 0){
+            if(c.getTipo()==1){
+                    
+                sol=true;
+            }
+        }
+        else{
+            if(c.getTipo()==-1){
+                    
+                sol=true;
+            }
+        }
+        
+        return sol;
+    } 
+    
+    public void SobreEntrenar(double [] Peso, ArrayList<Cara> lista){
+        
+        double tasaError=0, tasaMenor=1;
+        float varC, resta;
+        for(int j=0; j<lista.size(); j++){
+                
+            varC=ObtenerC(this, lista.get(j));
+            resta=varC - this.getC();
+
+            if(!Test(resta, lista.get(j))){
+
+                tasaError+= Peso[j];
+            }
+        }
+        this.setTasaError(tasaError);
+    }
     
     public float getC(){
         
