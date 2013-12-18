@@ -107,8 +107,6 @@ public class ClasDebil {
         solucion= Hiperplanos.get(mejor);
         Mejor=solucion;
         
-        Mejor.Testear(aprender);
-        
         return solucion;
     }
     
@@ -125,6 +123,4 @@ public class ClasDebil {
         
         return sol;
     }
-    /*Para clasificar sum(v(i)*pimg(i))-C si el res>0 una parte del plano
-            si el res<0 otra parte del plano*/
 }

@@ -203,4 +203,22 @@ public class Hiperplano {
         
         TasaError= t;
     }
+    public String PuntotoString(){
+        
+        String sol="";
+        for(int i=0;i<Punto.length;i++){
+            sol+=Punto[i];
+            sol+=" ";
+        }
+        return sol;
+    }
+    public String VectortoString(){
+        
+        String sol="";
+        for(int i=0;i<Vector.length;i++){
+            sol+=Vector[i];
+            sol+=" ";
+        }
+        return sol;
+    }
 }

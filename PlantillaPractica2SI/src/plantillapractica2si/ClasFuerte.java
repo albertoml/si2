@@ -4,6 +4,7 @@
  */
 package plantillapractica2si;
 import java.util.ArrayList;
+import java.io.*;
 
 /**
  *
@@ -143,10 +144,7 @@ public class ClasFuerte {
                 Peso[k]= (Peso[k]/suma);
             }
             //actualizamos el clasificador fuerte
-            for(int k=0; k<listaEntrenados.size(); k++){
-                
-                listaEntrenados.get(k).SobreEntrenar(Peso, listaAprendizaje);
-            }     
+            ht.Testear(listaAprendizaje);
             //calcular condicion y devolver
             if(ht.getTasaError()==0){
                 
@@ -156,13 +154,27 @@ public class ClasFuerte {
         }
         Mejores= listaEntrenados;
         
-        for(int i=0;i<Mejores.size();i++){
-            
-            Mejores.get(i).Testear(listaAprendizaje);
-        }
-        
         return listaEntrenados;
     }
-    
+    public void imprimirClas(){
+        
+        FileWriter f = null;
+        PrintWriter pw = null;
+        try
+        {
+            f = new FileWriter("prueba.txt");
+            pw = new PrintWriter(f);
+ 
+            for (int i = 0; i < Mejores.size(); i++){
+                pw.println(Mejores.get(i).PuntotoString());
+                pw.println(Mejores.get(i).VectortoString());
+            }
+            
+            f.close();
+ 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
 }

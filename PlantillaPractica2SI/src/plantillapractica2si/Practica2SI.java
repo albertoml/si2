@@ -60,7 +60,7 @@ public class Practica2SI {
     public Practica2SI()
     {
         rutaDir = "";
-        testRate = 0.5;
+        testRate = 0.4;
 	NUM_ITERACIONES = 1;
 	NUM_CLASIFICADORES = 1;
         VERBOSE = false;
@@ -97,19 +97,35 @@ public class Practica2SI {
 	//Separamos los conjuntos de aprendizaje y test
 	CrearConjuntoAprendizajeyTest();
 	System.out.println(listaAprendizaje.size()+" imagenes para aprendizaje, "+listaTest.size()+" imagenes para el test ("+(testRate*100)+"%)");
-
+        
+        int max[];
+        max=BuscarMax(listaAprendizaje);
+        int min[];
+        min=BuscarMin(listaAprendizaje);
 	//Comenzamos el aprendizaje
 	long t1 = System.currentTimeMillis();
         //TODO Aquí debéis poner vuestra llamada al método de entrenamiento de AdaBoost
+        ClasDebil miclasi = new ClasDebil(NUM_CLASIFICADORES, max, min);
+        miclasi.Aprender(listaAprendizaje);
 	long t2 = System.currentTimeMillis();
 	long time;
+        
+        //Crear hiperplanos 
+        //LLAMAR A MI CLASIFICADOR DEBIL
+        
+        miclasi.Mejor.Testear(listaTest);
+        
+        //LLAMAR A MI CLASIFICADOR FUERTE
+        //ClasFuerte miclasi = new ClasFuerte(NUM_ITERACIONES);
+        //miclasi.Adaboost(listaAprendizaje, NUM_CLASIFICADORES, max, min);
+        //miclasi.imprimirClas();  
         
 	time = t2 - t1;
 	System.out.println("Tiempo empleado en el aprendizaje: "+((float)time/1000f)+" segundos");
 	System.out.println("Número de clasificadores encontrados: " + NUM_CLASIFICADORES);
         //TODO añadir el valor puesto arriba
-	/*//Test final
-        if(VERBOSE)
+	//Test final
+        /*if(VERBOSE)
         {
             aciertos = 0;
             for(Cara c: listaAprendizaje)
@@ -135,20 +151,7 @@ public class Practica2SI {
 	}
 	System.out.println("TEST. Tasa de aciertos: "+((float)aciertos/(float)(listaTest.size())*100.0f)+"%");*/
         
-        int max[];
-        max=BuscarMax(listaAprendizaje);
-        int min[];
-        min=BuscarMin(listaAprendizaje);
-        
-        //Crear hiperplanos 
-        //LLAMAR A MI CLASIFICADOR DEBIL
-        //ClasDebil miclasi = new ClasDebil(NUM_CLASIFICADORES, max, min);
-        //miclasi.Aprender(listaAprendizaje);
-        
-        //LLAMAR A MI CLASIFICADOR FUERTE
-        ClasFuerte miclasi = new ClasFuerte(NUM_ITERACIONES);
-        miclasi.Adaboost(listaAprendizaje, NUM_CLASIFICADORES, max, min);
-        
+         
     }
     
     public int[] BuscarMax(ArrayList<Cara> a){
