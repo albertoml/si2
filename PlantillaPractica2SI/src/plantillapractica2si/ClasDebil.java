@@ -14,6 +14,7 @@ public class ClasDebil {
     public ArrayList<Hiperplano> Hiperplanos;
     public Hiperplano Mejor;
     private int Clasificadores;
+    public double ValorConfianza;
     
     public ClasDebil(int clas){
         
@@ -40,6 +41,15 @@ public class ClasDebil {
             
             Hiperplanos.add(new Hiperplano(max, min));
         }
+    }
+    
+    public void setValorConfianza(double a){
+        
+        ValorConfianza=a;
+    }
+    public double getValorConfianza(){
+        
+        return ValorConfianza;
     }
     
     public Hiperplano Aprender(ArrayList<Cara> aprender){
@@ -90,8 +100,8 @@ public class ClasDebil {
         }
         
         //Buscar mejor hiperplano
-        System.out.println("Aprendizaje de Hiperplanos");
-        System.out.println("Hiperplano    aciertos     fallos    Tasa aciertos");
+        //System.out.println("Aprendizaje de Hiperplanos");
+        //System.out.println("Hiperplano    aciertos     fallos    Tasa aciertos");
         float division;
         int mejor=0;
         for(int i=0; i<Hiperplanos.size(); i++){
@@ -101,8 +111,8 @@ public class ClasDebil {
             }
             division=(float) sol[i]/aprender.size();
             Hiperplanos.get(i).setTasaError(division);
-            System.out.println(i + "              " + sol[i] + "         " 
-                    + fail[i] + "        " + division + "%");
+            //System.out.println(i + "              " + sol[i] + "         " 
+                    //+ fail[i] + "        " + division + "%");
         }
         solucion= Hiperplanos.get(mejor);
         Mejor=solucion;

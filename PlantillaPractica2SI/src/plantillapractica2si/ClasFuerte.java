@@ -12,11 +12,11 @@ import java.io.*;
  */
 public class ClasFuerte {
     
-    public ArrayList<Hiperplano> Mejores;
+    public ArrayList<ClasDebil> Mejores;
     private int iteraciones;
     
     public ClasFuerte(int i){
-        
+        Mejores= new ArrayList<ClasDebil>();
         iteraciones= i;
     }
     
@@ -34,73 +34,46 @@ public class ClasFuerte {
         return sol;
     }
     
-    public boolean Test (float v, Cara c){
+    public int Test (Hiperplano h, Cara c){
         
-        boolean sol=false;
+        int sol=0;
+        
+        float varC=ObtenerC(h, c);
+        float resta=varC - h.getC();
         
         //si es mayor que 0 y es cara acierto
         //si es menor que 0 y es no cara acierto
         //si es mayor que 0 y no cara fallo
         //si es menor que 0 y cara fallo
-        if(v > 0){
-            if(c.getTipo()==1){
-                    
-                sol=true;
-            }
+        if(resta > 0){
+            sol=1;
         }
         else{
-            if(c.getTipo()==-1){
-                    
-                sol=true;
-            }
+            sol=-1;
         }
         
         return sol;
     }
-    
-    public Hiperplano Entrenar(int clasificadores, ArrayList<Cara> aprender, int max[], 
-            int min[], double peso[]){
-        
-        float varC, resta;
-        double tasaError, tasaMenor=1;
-        
-        Hiperplano solucion = new Hiperplano();
-        ArrayList<Hiperplano> Hiperplanos = new ArrayList();
-        for(int i=0; i<clasificadores; i++){
+    public int determinarCara(Cara c)
+    { 
+        double res = 0.0;
+        // A partir de todos los clasificadores que tengo, para actualizar el fuerte
+        for(ClasDebil cDebil: this.Mejores){
             
-            Hiperplanos.add(new Hiperplano(max, min));
+            res += cDebil.getValorConfianza() * Test(cDebil.Mejor, c);
         }
-        
-        for (int i=0; i<Hiperplanos.size(); i++){
-            
-            //probar hiperplano uno a uno
-            tasaError=0;
-            for(int j=0; j<aprender.size(); j++){
-                
-                varC=ObtenerC(Hiperplanos.get(i), aprender.get(j));
-                resta=varC - Hiperplanos.get(i).getC();
-                
-                if(!Test(resta, aprender.get(j))){
-                    
-                    tasaError+= peso[j];
-                }
-            }
-            Hiperplanos.get(i).setTasaError(tasaError);
-            if(tasaError<tasaMenor){
-                
-                tasaMenor=tasaError;
-                solucion=Hiperplanos.get(i);
-            }
+        // Obtengo donde se encuentra contenido en el plano
+        if(res < 0.0){
+            return 1;
         }
-        
-        return solucion;
+        else{
+            return -1;
+        }
     }
     
-    public ArrayList<Hiperplano> Adaboost(ArrayList<Cara> listaAprendizaje, int clasificadores, 
+    public ArrayList<ClasDebil> Adaboost(ArrayList<Cara> listaAprendizaje, int clasificadores, 
             int[] max, int[] min){
         
-        Hiperplano ht= new Hiperplano();
-        ArrayList<Hiperplano> listaEntrenados = new ArrayList();
         double clasificacion=0;
         //vector de pesos
         double [] Peso = new double[listaAprendizaje.size()];
@@ -113,21 +86,20 @@ public class ClasFuerte {
         
         for(int i=0; i<iteraciones; i++){
             
+            ClasDebil cl = new ClasDebil(clasificadores, max, min);
             //entrenamos el clasificador debil con la tasa de error
-            ht=Entrenar(clasificadores, listaAprendizaje, max, min, Peso);
+            cl.Aprender(listaAprendizaje);
             //con la tasa de error calculamos alfa
-            double alfa= 1/2 * (Math.log((1-ht.getTasaError())/ht.getTasaError()));
-            ht.setAlfa(alfa);
-            listaEntrenados.add(ht);
+            double alfa=0.5 * (Math.log((1-cl.Mejor.getTasaError())/cl.Mejor.getTasaError()));
+            cl.setValorConfianza(alfa);
+            Mejores.add(cl);
             //acualizamos el vector de pesos
-            float varC, resta;
             double suma=0;
             int j;
             for(j=0; j<tamaño-1; j++){
                 
-                varC=ObtenerC(ht, listaAprendizaje.get(j));
-                resta=varC - ht.getC();
-                if(Test(resta, listaAprendizaje.get(j))){
+                
+                if(Test(cl.Mejor, listaAprendizaje.get(j))==listaAprendizaje.get(j).getTipo()){
                     //clasifica bien
                     Peso[j+1]= Peso[j] * Math.pow(Math.E, (alfa));
                 }
@@ -137,24 +109,30 @@ public class ClasFuerte {
                 }
                 suma+=Peso[j];
             }
-            suma+=Peso[j];
             //normalizamos el vector de pesos
             for(int k=0;k<tamaño; k++){
                 
                 Peso[k]= (Peso[k]/suma);
             }
             //actualizamos el clasificador fuerte
-            ht.Testear(listaAprendizaje);
+            int aciertos = 0;
+            int clase;
+            for(Cara c: listaAprendizaje)
+            {
+                clase=this.determinarCara(c);
+                if(clase == c.getTipo()){
+                    aciertos++;
+                }
+            }
+            System.out.println("APRENDIZAJE. Tasa de aciertos: "+((float)aciertos/(float)(listaAprendizaje.size())*100.0f)+"%");
             //calcular condicion y devolver
-            if(ht.getTasaError()==0){
+            if(aciertos==listaAprendizaje.size()){
                 
-                Mejores= listaEntrenados;
-                return listaEntrenados;
+                return Mejores;
             }
         }
-        Mejores= listaEntrenados;
         
-        return listaEntrenados;
+        return Mejores;
     }
     public void imprimirClas(){
         
@@ -166,8 +144,8 @@ public class ClasFuerte {
             pw = new PrintWriter(f);
  
             for (int i = 0; i < Mejores.size(); i++){
-                pw.println(Mejores.get(i).PuntotoString());
-                pw.println(Mejores.get(i).VectortoString());
+                pw.println(Mejores.get(i).Mejor.PuntotoString());
+                pw.println(Mejores.get(i).Mejor.VectortoString());
             }
             
             f.close();

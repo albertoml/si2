@@ -60,7 +60,7 @@ public class Practica2SI {
     public Practica2SI()
     {
         rutaDir = "";
-        testRate = 0.4;
+        testRate = 0.8;
 	NUM_ITERACIONES = 1;
 	NUM_CLASIFICADORES = 1;
         VERBOSE = false;
@@ -105,19 +105,19 @@ public class Practica2SI {
 	//Comenzamos el aprendizaje
 	long t1 = System.currentTimeMillis();
         //TODO Aquí debéis poner vuestra llamada al método de entrenamiento de AdaBoost
-        ClasDebil miclasi = new ClasDebil(NUM_CLASIFICADORES, max, min);
-        miclasi.Aprender(listaAprendizaje);
+        //ClasDebil miclasi = new ClasDebil(NUM_CLASIFICADORES, max, min);
+        //miclasi.Aprender(listaAprendizaje);
 	long t2 = System.currentTimeMillis();
 	long time;
         
         //Crear hiperplanos 
         //LLAMAR A MI CLASIFICADOR DEBIL
         
-        miclasi.Mejor.Testear(listaTest);
+        //miclasi.Mejor.Testear(listaTest);
         
         //LLAMAR A MI CLASIFICADOR FUERTE
-        //ClasFuerte miclasi = new ClasFuerte(NUM_ITERACIONES);
-        //miclasi.Adaboost(listaAprendizaje, NUM_CLASIFICADORES, max, min);
+        ClasFuerte miclasi = new ClasFuerte(NUM_ITERACIONES);
+        miclasi.Adaboost(listaAprendizaje, NUM_CLASIFICADORES, max, min);
         //miclasi.imprimirClas();  
         
 	time = t2 - t1;

@@ -14,7 +14,6 @@ public class Hiperplano {
     public int []Punto;
     public float []Vector;
     public double TasaError;
-    public double alfa;
     public float C;
     private static int Dimension=576;
     private static float MaxVector=1;
@@ -122,15 +121,17 @@ public class Hiperplano {
         System.out.println(acierto + "         " + fallo + "        " + division + "%");
     }
      
-     public boolean Test (float v, Cara c){
+     public boolean Test (Hiperplano h, Cara c){
         
         boolean sol=false;
+        float varC=ObtenerC(h, c);
+        float resta=varC - h.getC();
         
         //si es mayor que 0 y es cara acierto
         //si es menor que 0 y es no cara acierto
         //si es mayor que 0 y no cara fallo
         //si es menor que 0 y cara fallo
-        if(v > 0){
+        if(resta > 0){
             if(c.getTipo()==1){
                     
                 sol=true;
@@ -151,11 +152,8 @@ public class Hiperplano {
         double tasaError=0, tasaMenor=1;
         float varC, resta;
         for(int j=0; j<lista.size(); j++){
-                
-            varC=ObtenerC(this, lista.get(j));
-            resta=varC - this.getC();
 
-            if(!Test(resta, lista.get(j))){
+            if(!Test(this, lista.get(j))){
 
                 tasaError+= Peso[j];
             }
@@ -166,10 +164,6 @@ public class Hiperplano {
     public float getC(){
         
         return C;
-    }
-    public double getAlfa(){
-        
-        return alfa;
     }
     public int[] getPunto(){
         
@@ -186,10 +180,6 @@ public class Hiperplano {
     public void setC(float c){
         
         C=c;
-    }
-    public void setAlfa(double a){
-        
-        alfa=a;
     }
     public void setPunto(int[] p){
         
